@@ -2,10 +2,6 @@ variable control_address {
   type        = string
   description = "The IP address of the control node."
 }
-# variable control_hostname {
-#   type        = string
-#   description = "The hostname of the control node"
-# }
 variable worker_addresses {
   type        = list(string)
   description = "The IP addresses of the worker nodes, if any."
