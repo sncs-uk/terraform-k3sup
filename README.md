@@ -1,14 +1,25 @@
 # Example Terraform module
 
-Terraform module which is an example.
+Terraform module to create a k3s cluster using k3sup.
 
 
 ## Usage
 ```hcl
-module "example" {
-  source        = "github.com/sncs-uk/example-module"
-  parameter     = "value"
-  do_something  = true
+module "k3s" {
+  source                  = "github.com/sncs-uk/terraform-k3sup"
+  control_address         = "10.20.30.40"
+  worker_addresses        = ["10.20.30.41", "10.20.30.42"]
+  username                = "debian"
+  disable_traefik         = true
+  disable_servicelb       = true
+  pod_cidr_v4             = "10.42.0.0/16"
+  pod_cidr_v6             = "2001:0db8::/61"
+  service_cidr_v4         = "10.43.0.0/16"
+  service_cidr_v6         = "2001:0db8:100::/108"
+  tls_sans                = ["my-kubernetes.example.com"]
+  flannel_backend         = "vxlan"
+  kubeconfig_path         = "kubeconfig"
+  allow_pods_on_control   = false
 }
 ```
 
@@ -16,10 +27,5 @@ module "example" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_example"></a> [example](#requirement\_example) | >= 1.23 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_example"></a> [example](#provider\_example) | >= 1.23 |
+| <a name="requirement_k3sup"></a> [k3sup](#requirement\_k3sup) | >= 0.12 |
+| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.27.3 |
