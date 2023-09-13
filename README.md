@@ -12,6 +12,7 @@ module "k3s" {
   username                = "debian"
   disable_traefik         = true
   disable_servicelb       = true
+  disable_network_policy  = true
   pod_cidr_v4             = "10.42.0.0/16"
   pod_cidr_v6             = "2001:0db8::/61"
   service_cidr_v4         = "10.43.0.0/16"
@@ -20,6 +21,7 @@ module "k3s" {
   flannel_backend         = "vxlan"
   kubeconfig_path         = "kubeconfig"
   allow_pods_on_control   = false
+  ssh_key                 = "/home/user/.ssh/id_rsa"
 }
 ```
 

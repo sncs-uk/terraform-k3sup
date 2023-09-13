@@ -1,6 +1,7 @@
 locals {
   disable_traefik         = var.disable_traefik ? "--disable traefik " : ""
   disable_servicelb       = var.disable_servicelb ? "--disable servicelb " : ""
+  disable_network_policy  = var.disable_network_policy ? "--disable-network-policy " : ""
   cluster_cidr_separator  = var.pod_cidr_v4 != "" && var.pod_cidr_v6 != "" ? "," : ""
   service_cidr_separator  = var.service_cidr_v4 != "" && var.service_cidr_v6 != "" ? "," : ""
   additional_sans         = length(var.tls_sans) > 0 ? " --tls-san ${join(",", var.tls_sans)}" : ""
@@ -11,7 +12,7 @@ locals {
 resource "null_resource" "k3s_control" {
 
   provisioner "local-exec" {
-    command = "k3sup install --ip ${var.control_address} --user ${var.username} --local-path ${var.kubeconfig_path} ${local.ssh_key} --k3s-extra-args '${local.disable_traefik}${local.disable_servicelb} --flannel-backend=${var.flannel_backend} --cluster-cidr \"${var.pod_cidr_v4}${local.cluster_cidr_separator}${var.pod_cidr_v6}\" --service-cidr \"${var.service_cidr_v4}${local.service_cidr_separator}${var.service_cidr_v6}\"${local.additional_sans}' && sleep 30"
+    command = "k3sup install --ip ${var.control_address} --user ${var.username} --local-path ${var.kubeconfig_path} ${local.ssh_key} --k3s-extra-args '${local.disable_traefik}${local.disable_servicelb}${local.disable_network_policy} --flannel-backend=${var.flannel_backend} --cluster-cidr \"${var.pod_cidr_v4}${local.cluster_cidr_separator}${var.pod_cidr_v6}\" --service-cidr \"${var.service_cidr_v4}${local.service_cidr_separator}${var.service_cidr_v6}\"${local.additional_sans}' && sleep 30"
   }
 }
 

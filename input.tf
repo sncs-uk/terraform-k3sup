@@ -25,6 +25,12 @@ variable disable_servicelb {
   default     = false
 }
 
+variable disable_network_policy {
+  type        = bool
+  description = "Whether to disable in-built network policy or not."
+  default     = false
+}
+
 variable pod_cidr_v4 {
   type        = string
   description = "The v4 CIDR address for the pods in the cluster."
