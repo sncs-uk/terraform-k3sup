@@ -2,8 +2,8 @@
 
 Terraform module to create a k3s cluster using k3sup.
 
-
 ## Usage
+
 ```hcl
 module "k3s" {
   source                  = "github.com/sncs-uk/terraform-k3sup"
@@ -24,6 +24,7 @@ module "k3s" {
 ```
 
 ## Requirements
+
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
