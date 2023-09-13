@@ -5,12 +5,13 @@ locals {
   service_cidr_separator  = var.service_cidr_v4 != "" && var.service_cidr_v6 != "" ? "," : ""
   additional_sans         = length(var.tls_sans) > 0 ? " --tls-san ${join(",", var.tls_sans)}" : ""
   allow_pods_on_control   = var.allow_pods_on_control || length(var.worker_addresses) == 0 ? true : false
+  ssh_key                 = var.ssh_key_path == null ? "" : "--ssh-key ${var.ssh_key_path}"
 }
 
 resource "null_resource" "k3s_control" {
 
   provisioner "local-exec" {
-    command = "k3sup install --ip ${var.control_address} --user ${var.username} --local-path ${var.kubeconfig_path} --k3s-extra-args '${local.disable_traefik}${local.disable_servicelb} --flannel-backend=${var.flannel_backend} --cluster-cidr \"${var.pod_cidr_v4}${local.cluster_cidr_separator}${var.pod_cidr_v6}\" --service-cidr \"${var.service_cidr_v4}${local.service_cidr_separator}${var.service_cidr_v6}\"${local.additional_sans}' && sleep 30"
+    command = "k3sup install --ip ${var.control_address} --user ${var.username} --local-path ${var.kubeconfig_path} ${local.ssh_key} --k3s-extra-args '${local.disable_traefik}${local.disable_servicelb} --flannel-backend=${var.flannel_backend} --cluster-cidr \"${var.pod_cidr_v4}${local.cluster_cidr_separator}${var.pod_cidr_v6}\" --service-cidr \"${var.service_cidr_v4}${local.service_cidr_separator}${var.service_cidr_v6}\"${local.additional_sans}' && sleep 30"
   }
 }
 
@@ -41,6 +42,6 @@ resource null_resource "k3s_worker" {
   ]
 
   provisioner "local-exec" {
-    command = "k3sup join --server-ip ${var.control_address} --ip ${var.worker_addresses[count.index]} --user debian"
+    command = "k3sup join --server-ip ${var.control_address} --ip ${var.worker_addresses[count.index]} --user ${var.username} ${local.ssh_key} "
   }
 }

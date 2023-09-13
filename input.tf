@@ -70,3 +70,9 @@ variable allow_pods_on_control {
   description = "Allow the control plane to run pods."
   default     = false
 }
+
+variable ssh_key_path {
+  type        = string
+  description = "Path to the SSH Key file on the local filesystem."
+  default     = null
+}
