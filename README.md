@@ -15,6 +15,8 @@ module "k3s" {
   disable_network_policy  = true
   pod_cidr_v4             = "10.42.0.0/16"
   pod_cidr_v6             = "2001:0db8::/61"
+  node_cidr_mask_size_v4  = 24
+  node_cidr_mask_size_v6  = 64
   service_cidr_v4         = "10.43.0.0/16"
   service_cidr_v6         = "2001:0db8:100::/108"
   tls_sans                = ["my-kubernetes.example.com"]
