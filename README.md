@@ -21,7 +21,7 @@ module "k3s" {
   flannel_backend         = "vxlan"
   kubeconfig_path         = "kubeconfig"
   allow_pods_on_control   = false
-  ssh_key                 = "/home/user/.ssh/id_rsa"
+  ssh_key_path            = "/home/user/.ssh/id_rsa"
 }
 ```
 

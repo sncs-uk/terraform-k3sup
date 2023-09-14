@@ -42,6 +42,18 @@ variable pod_cidr_v6 {
   default     = ""
 }
 
+variable node_cidr_mask_size_v4 {
+  type        = number
+  description = "The size of IPv4 subnet to assign to each node from the pod cidr supernet."
+  default     = null
+}
+
+variable node_cidr_mask_size_v6 {
+  type        = number
+  description = "The size of IPv6 subnet to assign to each node from the pod cidr supernet."
+  default     = null
+}
+
 variable service_cidr_v4 {
   type        = string
   description = "The v4 CIDR address for the services in the cluster."
