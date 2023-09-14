@@ -7,8 +7,8 @@ locals {
   additional_sans         = length(var.tls_sans) > 0 ? " --tls-san ${join(",", var.tls_sans)}" : ""
   allow_pods_on_control   = var.allow_pods_on_control || length(var.worker_addresses) == 0 ? true : false
   ssh_key                 = var.ssh_key_path == null ? "" : "--ssh-key ${var.ssh_key_path}"
-  node_cidr_size_v4       = var.node_cidr_mask_size_v4 == null ? "" : "--node-cidr-mask-size-ipv4 ${var.node_cidr_mask_size_v4} "
-  node_cidr_size_v6       = var.node_cidr_mask_size_v6 == null ? "" : "--node-cidr-mask-size-ipv6 ${var.node_cidr_mask_size_v6} "
+  node_cidr_size_v4       = var.node_cidr_mask_size_v4 == null ? "" : "--kube-controller-manager-arg=node-cidr-mask-size-ipv4=${var.node_cidr_mask_size_v4} "
+  node_cidr_size_v6       = var.node_cidr_mask_size_v6 == null ? "" : "--kube-controller-manager-arg=node-cidr-mask-size-ipv6=${var.node_cidr_mask_size_v6} "
 }
 
 resource "null_resource" "k3s_control" {
